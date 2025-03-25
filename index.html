@@ -85,6 +85,16 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
+        // Check for URL parameters on page load
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const key = urlParams.get('key');
+            if (key) {
+                document.getElementById('encryptedLink').value = key;
+                decodeAssignment();
+            }
+        };
+
         function decodeAssignment() {
             const encryptedLink = document.getElementById('encryptedLink').value.trim();
             const errorDiv = document.getElementById('error');
@@ -107,8 +117,8 @@
                 resultDiv.innerHTML = `
                     <h2>Your Secret Santa Assignment</h2>
                     <div class="assignment">
-                        <p><strong>You are:</strong> ${data.person}</p>
-                        <p><strong>You should give a present to:</strong> ${data.assignment}</p>
+                        <p><strong>You are:</strong> ${data.giverId}</p>
+                        <p><strong>You should give a present to:</strong> ${data.receiverId}</p>
                     </div>
                 `;
                 resultDiv.style.display = 'block';
