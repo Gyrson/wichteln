@@ -83,7 +83,6 @@
         <div id="result"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         // Check for URL parameters on page load
         window.onload = function() {
@@ -108,17 +107,22 @@
             }
 
             try {
+                // Extract the key if a full URL was pasted
+                const key = encryptedLink.includes('?key=') 
+                    ? encryptedLink.split('?key=')[1] 
+                    : encryptedLink;
+
                 // Decode the base64 string
-                const decodedString = atob(encryptedLink);
+                const jsonString = atob(key);
                 // Parse the JSON data
-                const data = JSON.parse(decodedString);
+                const data = JSON.parse(jsonString);
                 
                 // Display the result
                 resultDiv.innerHTML = `
                     <h2>Your Secret Santa Assignment</h2>
                     <div class="assignment">
-                        <p><strong>You are:</strong> ${data.giverId}</p>
-                        <p><strong>You should give a present to:</strong> ${data.receiverId}</p>
+                        <p><strong>You are:</strong> ${data.person}</p>
+                        <p><strong>You should give a present to:</strong> ${data.assignment}</p>
                     </div>
                 `;
                 resultDiv.style.display = 'block';
